@@ -86,7 +86,10 @@ export default function AdminDashboard() {
 
       const data = await response.json();
       if (data.success) {
-        return data.url;
+        return {
+          url: data.url,
+          mimeType: data.mimeType || 'image/jpeg'
+        };
       } else {
         setError(data.error || 'Image upload failed');
         return null;
@@ -119,8 +122,8 @@ export default function AdminDashboard() {
       }
 
       // Upload image first
-      const imageUrl = await uploadImage();
-      if (!imageUrl) {
+      const imageData = await uploadImage();
+      if (!imageData) {
         setUploading(false);
         return;
       }
@@ -133,7 +136,8 @@ export default function AdminDashboard() {
         },
         body: JSON.stringify({
           ...formData,
-          image: imageUrl,
+          image: imageData.url,
+          imageMimeType: imageData.mimeType,
           author: formData.author || 'Admin',
           author_img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
         }),

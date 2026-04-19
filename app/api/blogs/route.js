@@ -39,7 +39,7 @@ export async function POST(request) {
   try {
     await dbConnect();
 
-    const { title, description, content, category, image, author, author_img } =
+    const { title, description, content, category, image, imageMimeType, author, author_img } =
       await request.json();
 
     if (!title || !description || !content || !category || !image) {
@@ -69,6 +69,7 @@ export async function POST(request) {
       content,
       category,
       image,
+      imageMimeType: imageMimeType || 'image/jpeg',
       author: author || 'Admin',
       author_img: author_img || '/profile_icon.png',
     });

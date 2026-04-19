@@ -64,7 +64,7 @@ const Header = () => {
       {/* Navigation */}
       <div className='flex justify-between items-center mb-12'>
         <Image src={assets.logo} width={120} alt="logo" className="cursor-pointer w-[120px] sm:w-[180px]"/>
-        <a href="https://blog.dhritam.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.dhritam.com" target="_blank" rel="noopener noreferrer">
           <button 
             className='flex items-center gap-2 font-bold py-2 px-4 sm:py-3 sm:px-6 border-2 border-black shadow-[-7px_7px_0px_0px_rgba(0,0,0,1)] hover:shadow-[-10px_10px_0px_0px_rgba(0,0,0,0.15)] transition-all'
             style={{ fontFamily: 'var(--font-poppins)' }}

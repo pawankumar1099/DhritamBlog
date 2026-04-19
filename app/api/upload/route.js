@@ -1,7 +1,3 @@
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import { existsSync } from 'fs';
-
 export async function POST(request) {
   try {
     const formData = await request.formData();
@@ -14,31 +10,24 @@ export async function POST(request) {
       );
     }
 
+    // Read file and convert to base64
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const base64String = buffer.toString('base64');
 
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = join(process.cwd(), 'public', 'uploads');
-    if (!existsSync(uploadsDir)) {
-      await mkdir(uploadsDir, { recursive: true });
-    }
-
-    // Generate unique filename
-    const timestamp = Date.now();
-    const filename = `${timestamp}-${file.name}`;
-    const filepath = join(uploadsDir, filename);
-
-    // Save file
-    await writeFile(filepath, buffer);
-
-    // Return relative URL for accessing the file
-    const fileUrl = `/uploads/${filename}`;
+    // Determine MIME type
+    const mimeType = file.type || 'image/jpeg';
+    
+    // Create data URL
+    const dataUrl = `data:${mimeType};base64,${base64String}`;
 
     return Response.json(
       {
         success: true,
-        url: fileUrl,
-        message: 'File uploaded successfully',
+        url: dataUrl,
+        base64: base64String,
+        mimeType: mimeType,
+        message: 'File uploaded successfully as base64',
       },
       { status: 200 }
     );
