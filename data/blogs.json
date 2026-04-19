@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "title": "A detailed step by step guide to manage your lifestyle",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "image": "/blog_pic_1.png",
+    "date": "2026-04-15T08:30:41.731Z",
+    "category": "Lifestyle",
+    "author": "Alex Bennett",
+    "author_img": "/profile_icon.png"
+  },
+  {
+    "id": 2,
+    "title": "How to create an effective startup roadmap or ideas",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "image": "/blog_pic_2.png",
+    "date": "2026-04-15T08:30:41.731Z",
+    "category": "Startup",
+    "author": "Alex Bennett",
+    "author_img": "/profile_icon.png"
+  },
+  {
+    "id": 3,
+    "title": "Learning new technology to boost your career in software",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "image": "/blog_pic_3.png",
+    "date": "2026-04-15T08:30:41.731Z",
+    "category": "Technology",
+    "author": "Alex Bennett",
+    "author_img": "/profile_icon.png"
+  },
+  {
+    "id": 4,
+    "title": "xfcghvhjopk",
+    "description": "gfchghbjnkml",
+    "content": "fcgvhbjnkl,;",
+    "category": "Technology",
+    "image": "/blog_pic_1.png",
+    "author": "Admin",
+    "author_img": "/profile_icon.png",
+    "date": "2026-04-15T08:32:04.157Z"
+  },
+  {
+    "id": 5,
+    "title": "xcvxbcv",
+    "description": "vfbehthtrjrwjj",
+    "content": "wrhejt,yrutjyrtergfdntkuiu5y4wterfsc",
+    "category": "Technology",
+    "image": "/uploads/1776522649028-yck4w.jpeg",
+    "author": "Admin",
+    "author_img": "/profile_icon.png",
+    "date": "2026-04-18T14:31:03.111Z"
+  }
+]

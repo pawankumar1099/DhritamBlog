@@ -1,0 +1,31 @@
+# Robots.txt for Dhritam Blog
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Allow: /blog/
+Allow: /api/blogs
+
+# Disallow private/admin paths
+Disallow: /admin/
+Disallow: /admin/login/
+Disallow: /admin/dashboard/
+Disallow: /api/auth/
+Disallow: /api/upload/
+Disallow: /*.json$
+
+# Allow Google, Bing, and other major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Specify sitemap location
+Sitemap: https://blog.dhritam.com/api/sitemap
+
+# Crawl delay (optional - prevents server overload)
+Crawl-delay: 1
