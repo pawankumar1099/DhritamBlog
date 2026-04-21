@@ -53,19 +53,18 @@ const BlogList = () => {
   const categories = ['All', 'Technology', 'Startup', 'Lifestyle'];
 
   return (
-    <div className='py-12 px-5 md:px-12 lg:px-28'>
+    <div className='py-20 px-5 md:px-12 lg:px-28 bg-pure-black'>
       {/* Category Filters */}
-      <div className='flex justify-center gap-4 mb-16 flex-wrap'>
+      <div className='flex justify-center gap-4 sm:gap-10 mb-20 flex-wrap'>
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => setMenu(category)}
-            className={`py-2 px-6 font-bold border-2 transition-all ${
+            className={`py-3 px-8 rounded-full border transition-all uppercase tracking-[0.3em] text-[10px] font-bold font-system ${
               menu === category
-                ? 'bg-black text-white border-black shadow-[-6px_6px_0px_0px_rgba(0,0,0,0.2)]'
-                : 'text-black border-black hover:bg-black hover:text-white'
+                ? 'bg-hero-lime text-pure-black border-hero-lime shadow-[0_0_20px_rgba(219,255,0,0.2)]'
+                : 'text-white/30 border-white/5 hover:border-white/20 hover:text-white/60'
             }`}
-            style={{ fontFamily: 'var(--font-poppins)' }}
           >
             {category}
           </button>
@@ -73,14 +72,13 @@ const BlogList = () => {
       </div>
 
       {/* Blog Grid */}
-      <div className='flex flex-wrap justify-center gap-8 mb-20'>
+      <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 max-w-[1400px] mx-auto'>
         {blogs.filter((item) => menu === 'All' ? true : item.category === menu).length === 0 ? (
-          <p 
-            className='text-gray-600 text-lg py-10'
-            style={{ fontFamily: 'var(--font-poppins)' }}
-          >
-            No blogs found in this category yet.
-          </p>
+          <div className="col-span-full text-center py-32 bg-white/5 rounded-3xl border border-dashed border-white/10">
+            <p className='text-white/20 text-sm uppercase tracking-[0.5em] font-system'>
+              SYSTEM MESSAGE: NO DATA DETECTED IN THIS SECTOR
+            </p>
+          </div>
         ) : (
           blogs.filter((item) => menu === 'All' ? true : item.category === menu).map((item) => (
             <BlogItem 

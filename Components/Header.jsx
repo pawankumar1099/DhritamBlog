@@ -60,69 +60,63 @@ const Header = () => {
   };
 
   return (
-    <div className='py-8 px-5 md:px-12 lg:px-28 bg-white border-b-2 border-black'>
+    <div className='py-8 px-5 md:px-12 lg:px-28 bg-pure-black glass-nav'>
       {/* Navigation */}
       <div className='flex justify-between items-center mb-12'>
-        <Image src={assets.logo} width={120} alt="logo" className="cursor-pointer w-[120px] sm:w-[180px]"/>
+        <div className="flex items-center gap-3">
+           <Image src={assets.logo} width={120} alt="logo" className="cursor-pointer invert w-[120px] sm:w-[150px] hover:opacity-80 transition-opacity"/>
+           <div className="hidden sm:block h-5 w-[1px] bg-white/20 mx-2"></div>
+           <span className="hidden sm:block text-white/40 text-[10px] tracking-[0.4em] font-system uppercase">Systems</span>
+        </div>
         <a href="https://www.dhritam.com" target="_blank" rel="noopener noreferrer">
           <button 
-            className='flex items-center gap-2 font-bold py-2 px-4 sm:py-3 sm:px-6 border-2 border-black shadow-[-7px_7px_0px_0px_rgba(0,0,0,1)] hover:shadow-[-10px_10px_0px_0px_rgba(0,0,0,0.15)] transition-all'
-            style={{ fontFamily: 'var(--font-poppins)' }}
+            className='flex items-center gap-2 font-bold py-2 px-5 sm:py-2.5 sm:px-6 border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-all uppercase tracking-widest text-[11px] font-system shadow-lg'
           >
-            Get Started <Image src={assets.arrow} width={20} height={20} alt="get started icon"/>
+            Access Portal <Image src={assets.arrow} width={12} height={12} alt="get started icon" className="brightness-150"/>
           </button>
         </a>
       </div>
 
       {/* Hero Section */}
-      <div className='text-center'>
+      <div className='text-center py-12'>
+        <div className="inline-block px-4 py-1.5 bg-white/5 border border-white/10 rounded-full mb-8 backdrop-blur-sm">
+           <span className="text-hero-lime text-[10px] tracking-[0.5em] uppercase font-bold font-system">Intelligence Terminal</span>
+        </div>
         <h1 
-          className='text-4xl sm:text-6xl font-bold mb-6 text-black' 
-          style={{ fontFamily: 'var(--font-playfair)' }}
+          className='text-6xl sm:text-9xl font-black mb-8 text-white zalando-sans-expanded-font tracking-tighter leading-none' 
         >
-          Latest Blogs
+          LATEST <span className="text-hero-lime italic">INSIGHTS</span>
         </h1>
         <p 
-          className='mt-6 max-w-[740px] m-auto text-sm sm:text-lg text-gray-700 leading-relaxed'
-          style={{ fontFamily: 'var(--font-merriweather)' }}
+          className='mt-8 max-w-[680px] m-auto text-base sm:text-lg text-white/50 leading-relaxed font-body tracking-tight'
         >
-          Discover the latest insights, trends, and stories in our blog. Stay informed and inspired with our expert content.
+          Analyzing the frontier of bio-technology and startup infrastructure. <br className="hidden sm:block" /> Access specialized research and medical-grade data.
         </p>
 
         {/* Email Subscription */}
-        <form onSubmit={handleSubscribe} className='flex flex-col gap-3 max-w-[600px] mx-auto mt-10'>
-          <div className='flex justify-between border-2 border-black shadow-[-8px_8px_0px_0px_rgba(0,0,0,0.1)]'>
+        <form onSubmit={handleSubscribe} className='flex flex-col gap-4 max-w-[540px] mx-auto mt-16 scale-105 sm:scale-100'>
+          <div className='flex flex-col sm:flex-row gap-0 sm:gap-2 p-1.5 bg-soft-black border border-white/10 rounded-2xl shadow-2xl focus-within:border-hero-lime/40 transition-all'>
             <input 
+              onChange={(e) => setEmail(e.target.value)} 
+              value={email} 
               type="email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder='Enter your email' 
-              className='pl-6 w-full outline-none focus:outline-none text-black placeholder:text-gray-500'
-              style={{ fontFamily: 'var(--font-poppins)' }}
-              disabled={loading}
+              placeholder='Enter your secure email' 
+              className='flex-grow bg-transparent outline-none px-6 py-4 text-white text-sm placeholder:text-white/20' 
+              required
             />
             <button 
-              type="submit"
+              type='submit' 
               disabled={loading}
-              className='border-l-2 border-black py-4 px-6 sm:px-8 font-bold cursor-pointer hover:bg-black hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed'
-              style={{ fontFamily: 'var(--font-poppins)' }}
+              className='btn-modern bg-hero-lime text-pure-black hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2 min-w-[140px] rounded-xl'
             >
-              {loading ? 'Subscribing...' : 'Subscribe'}
+              {loading ? 'Processing...' : 'Subscribe'}
+              {!loading && <div className="w-1.5 h-1.5 rounded-full bg-black/30"></div>}
             </button>
           </div>
-
-          {/* Status Message */}
           {message && (
-            <p 
-              className={`text-sm font-bold ${
-                messageType === 'success' 
-                  ? 'text-green-600' 
-                  : 'text-red-600'
-              }`}
-              style={{ fontFamily: 'var(--font-poppins)' }}
-            >
+            <div className={`text-xs font-system uppercase tracking-widest px-4 py-2 rounded-lg ${messageType === 'success' ? 'text-hero-lime bg-hero-lime/10' : 'text-red-500 bg-red-500/10'}`}>
               {message}
-            </p>
+            </div>
           )}
         </form>
       </div>

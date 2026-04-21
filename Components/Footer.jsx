@@ -4,24 +4,41 @@ import { assets } from '@/Assets/assets'
 
 const Footer = () => {
   return (
-    <div className='bg-black text-white py-16 px-5 md:px-12 lg:px-28'>
-      <div className='flex flex-col items-center justify-between gap-8 mb-12'>
+    <div className='bg-pure-black border-t border-white/5 text-pioneers-white py-20 px-5 md:px-12 lg:px-28 font-system'>
+      <div className='flex flex-col md:flex-row items-center justify-between gap-16 mb-20'>
         {/* Logo and About */}
-        <div className='text-center'>
-          <Image src={assets.logo_light} width={140} alt="logo" className="cursor-pointer mx-auto" />
-          <p 
-            className='text-sm text-gray-400 mt-4'
-            style={{ fontFamily: 'var(--font-poppins)' }}
-          >
-            Copyright © {new Date().getFullYear()} Dhritam. All rights reserved.
-          </p>
+        <div className='text-center md:text-left'>
+          <Image src={assets.logo} width={140} alt="logo" className="cursor-pointer invert brightness-150 mb-8 mx-auto md:mx-0 opacity-80 hover:opacity-100 transition-opacity" />
+          <div className="flex items-center gap-4 justify-center md:justify-start bg-white/5 px-4 py-2 rounded-full border border-white/10">
+            <span className="w-1.5 h-1.5 rounded-full bg-hero-lime animate-pulse"></span>
+            <p className='text-[9px] uppercase tracking-[0.5em] text-white/50 font-bold'>
+              Core System Active: v5.0.1
+            </p>
+          </div>
+        </div>
+
+        {/* Status Indicators */}
+        <div className="grid grid-cols-3 gap-8 md:gap-16 text-[9px] uppercase tracking-[0.4em] text-white/40">
+           <div className="flex flex-col gap-3">
+              <span className="text-hero-lime/40 font-bold">SEC_LEVEL</span>
+              <span className="text-white/80">OVERRIDE-A1</span>
+           </div>
+           <div className="flex flex-col gap-3">
+              <span className="text-hero-lime/40 font-bold">OS_VERSION</span>
+              <span className="text-white/80">DHRITAM-X</span>
+           </div>
+           <div className="flex flex-col gap-3">
+              <span className="text-hero-lime/40 font-bold">STABILITY</span>
+              <span className="text-white/80">OPTIMAL</span>
+           </div>
         </div>
 
         {/* LinkedIn Link */}
-        <div>
-          <a href="https://www.linkedin.com/company/dhritam/" target="_blank" rel="noopener noreferrer">
+        <div className="group relative">
+          <a href="https://www.linkedin.com/company/dhritam/" target="_blank" rel="noopener noreferrer" className="relative block p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-hero-lime/30 transition-all shadow-xl">
+             <div className="absolute inset-0 bg-hero-lime blur-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
             <svg 
-              className='w-12 h-12 cursor-pointer hover:opacity-70 transition-opacity fill-white' 
+              className='w-8 h-8 cursor-pointer transition-all fill-white group-hover:fill-hero-lime group-hover:scale-105' 
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -32,13 +49,15 @@ const Footer = () => {
       </div>
 
       {/* Divider */}
-      <div className='border-t border-gray-700 pt-8'>
-        <p 
-          className='text-center text-xs text-gray-500'
-          style={{ fontFamily: 'var(--font-poppins)' }}
-        >
-          Built with passion for bloggers and readers worldwide
+      <div className='border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-8'>
+        <p className='text-[9px] uppercase tracking-[0.5em] text-white/20 font-medium'>
+          Transmission end. Copyright © {new Date().getFullYear()} Dhritam Research Div.
         </p>
+        <div className="flex gap-10 text-[9px] uppercase tracking-[0.4em] text-white/30">
+           <span className="hover:text-hero-lime cursor-pointer transition-colors hover:opacity-100">Privacy Policy</span>
+           <span className="hover:text-hero-lime cursor-pointer transition-colors hover:opacity-100">Terms of Use</span>
+           <span className="hover:text-white cursor-pointer transition-colors">v5.0.1</span>
+        </div>
       </div>
     </div>
   )

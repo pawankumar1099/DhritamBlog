@@ -1,28 +1,25 @@
-import { Outfit, Playfair_Display, Poppins, Merriweather } from "next/font/google";
+import { Outfit, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ['400','500','600','700'],
-  variable: '--font-outfit'
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-outfit',
+  display: 'swap'
 });
 
-const playfair = Playfair_Display({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ['400','500','600','700'],
-  variable: '--font-playfair'
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap'
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ['300','400','500','600','700'],
-  variable: '--font-poppins'
-});
-
-const merriweather = Merriweather({
-  subsets: ["latin"],
-  weight: ['300','400','700'],
-  variable: '--font-merriweather'
+  weight: ['600', '700', '800', '900'],
+  variable: '--font-big-shoulders',
+  display: 'swap'
 });
 
 export const metadata = {
@@ -115,7 +112,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${outfit.variable} ${playfair.variable} ${poppins.variable} ${merriweather.variable} antialiased`}
+        className={`${outfit.variable} ${poppins.variable} ${inter.variable} antialiased`}
       >
         {children}
       </body>
