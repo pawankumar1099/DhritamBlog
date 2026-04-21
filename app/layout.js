@@ -67,6 +67,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         {/* Schema.org JSON-LD for Website */}
+
+
+        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -110,6 +113,20 @@ export default function RootLayout({ children }) {
             }),
           }}
         />
+        
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SB6SXPZ50N"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-SB6SXPZ50N');
+            `,
+          }}
+        />
+        
       </head>
       <body
         className={`${outfit.variable} ${poppins.variable} ${inter.variable} antialiased`}
