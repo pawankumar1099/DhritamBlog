@@ -34,9 +34,10 @@ const BlogList = () => {
 
   if (loading) {
     return (
-      <div className='text-center py-16'>
-        <p className='text-lg' style={{ fontFamily: 'var(--font-poppins)' }}>
-          Loading blogs...
+      <div className='flex flex-col items-center justify-center py-32 bg-pure-black'>
+        <div className="w-12 h-12 border-2 border-hero-lime/20 border-t-hero-lime rounded-full animate-spin"></div>
+        <p className='text-xs uppercase tracking-[0.4em] text-hero-lime animate-pulse font-system mt-6'>
+          Loading...
         </p>
       </div>
     );
@@ -76,7 +77,7 @@ const BlogList = () => {
         {blogs.filter((item) => menu === 'All' ? true : item.category === menu).length === 0 ? (
           <div className="col-span-full text-center py-32 bg-white/5 rounded-3xl border border-dashed border-white/10">
             <p className='text-white/20 text-sm uppercase tracking-[0.5em] font-system'>
-              SYSTEM MESSAGE: NO DATA DETECTED IN THIS SECTOR
+              SYSTEM MESSAGE: NO DATA DETECTED IN THIS DOMAIN
             </p>
           </div>
         ) : (

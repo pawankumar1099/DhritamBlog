@@ -25,25 +25,25 @@ export default function MarkdownRenderer({ content }) {
     // Headers (h2, h3, etc)
     html = html.replace(
       /^### (.*?)$/gm,
-      '<h3 class="text-3xl font-bold my-4 text-black border-b-2 border-black pb-3" style="font-family: var(--font-playfair)">$1</h3>'
+      '<h3 class="text-3xl font-bold my-4 text-white border-b border-white/10 pb-3">$1</h3>'
     );
     html = html.replace(
       /^## (.*?)$/gm,
-      '<h2 class="text-4xl font-bold my-6 text-black border-b-2 border-black pb-3" style="font-family: var(--font-playfair)">$1</h2>'
+      '<h2 class="text-4xl font-bold my-6 text-white border-b border-white/10 pb-3">$1</h2>'
     );
     html = html.replace(
       /^# (.*?)$/gm,
-      '<h1 class="text-5xl font-bold my-6 text-black border-b-2 border-black pb-3" style="font-family: var(--font-playfair)">$1</h1>'
+      '<h1 class="text-5xl font-bold my-6 text-white border-b border-white/10 pb-3">$1</h1>'
     );
 
     // Bold text
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-black">$1</strong>');
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-white">$1</strong>');
 
     // Italic text
-    html = html.replace(/\*(.*?)\*/g, '<em class="italic text-gray-800" style="font-family: var(--font-merriweather)">$1</em>');
+    html = html.replace(/\*(.*?)\*/g, '<em class="italic text-white/70">$1</em>');
 
     // Links
-    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-blue-600 underline hover:text-blue-800 font-bold" target="_blank" rel="noopener noreferrer">$1</a>');
+    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-hero-lime underline hover:text-white transition-colors font-bold" target="_blank" rel="noopener noreferrer">$1</a>');
 
     // Images
     html = html.replace(
@@ -54,16 +54,16 @@ export default function MarkdownRenderer({ content }) {
     // Blockquotes
     html = html.replace(
       /^&gt; (.*?)$/gm,
-      '<blockquote class="border-l-4 border-black bg-gray-50 p-4 my-4 italic text-gray-700" style="font-family: var(--font-merriweather)">$1</blockquote>'
+      '<blockquote class="border-l-4 border-hero-lime bg-white/5 p-4 my-4 italic text-white/80">$1</blockquote>'
     );
 
     // Unordered lists
-    html = html.replace(/^\- (.*?)$/gm, '<li class="list-disc list-inside ml-4 my-1">$1</li>');
-    html = html.replace(/(<li class="list-disc list-inside ml-4 my-1">.*?<\/li>)/gs, '<ul class="my-4">$1</ul>');
+    html = html.replace(/^\- (.*?)$/gm, '<li class="list-disc list-inside ml-4 my-1 text-white/90">$1</li>');
+    html = html.replace(/(<li class="list-disc list-inside ml-4 my-1 text-white\/90">.*?<\/li>)/gs, '<ul class="my-4">$1</ul>');
 
     // Ordered lists
-    html = html.replace(/^\d+\. (.*?)$/gm, '<li class="list-decimal list-inside ml-4 my-1">$1</li>');
-    html = html.replace(/(<li class="list-decimal list-inside ml-4 my-1">.*?<\/li>)/gs, '<ol class="my-4">$1</ol>');
+    html = html.replace(/^\d+\. (.*?)$/gm, '<li class="list-decimal list-inside ml-4 my-1 text-white/90">$1</li>');
+    html = html.replace(/(<li class="list-decimal list-inside ml-4 my-1 text-white\/90">.*?<\/li>)/gs, '<ol class="my-4">$1</ol>');
 
     // Paragraphs
     html = html.split('\n\n').map((para) => {
@@ -75,7 +75,7 @@ export default function MarkdownRenderer({ content }) {
       ) {
         return para;
       }
-      return `<p class="my-4 leading-7 text-gray-800" style="font-family: var(--font-merriweather)">${para}</p>`;
+      return `<p class="my-4 leading-relaxed text-white/90">${para}</p>`;
     });
 
     return html.join('');
@@ -83,7 +83,7 @@ export default function MarkdownRenderer({ content }) {
 
   return (
     <div
-      className="prose prose-lg max-w-none markdown-content"
+      className="markdown-content"
       dangerouslySetInnerHTML={{
         __html: parseMarkdown(content),
       }}

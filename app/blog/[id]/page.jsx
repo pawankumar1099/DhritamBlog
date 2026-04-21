@@ -162,7 +162,7 @@ export default function BlogDetail() {
           {/* Back Button */}
           <Link 
             href="/" 
-            className="group inline-flex items-center gap-4 mb-20 text-white/30 hover:text-hero-lime transition-all"
+            className="group inline-flex items-center gap-4 mb-20 text-white/60 hover:text-hero-lime transition-all"
           >
             <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-hero-lime group-hover:bg-hero-lime/10 transition-all">
               <span className="text-xl">←</span>
@@ -214,8 +214,8 @@ export default function BlogDetail() {
               </div>
               
               <div className="hidden sm:flex flex-col items-end gap-2">
-                 <span className="text-[9px] text-white/20 uppercase tracking-[0.4em]">Authored In</span>
-                 <span className="text-white font-bold uppercase tracking-[0.2em] text-[10px]">Silicon Valley Sector</span>
+                 <span className="text-[9px] text-white/20 uppercase tracking-[0.4em]">Written within the</span>
+                 <span className="text-white font-bold uppercase tracking-[0.2em] text-[10px]">Public Health Domain</span>
               </div>
             </div>
           </div>
@@ -241,25 +241,25 @@ export default function BlogDetail() {
           <div className="mb-20 p-10 bg-soft-black border border-white/10 rounded-3xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-hero-lime/5 blur-3xl"></div>
             <div className="relative">
-              <span className="text-[9px] text-hero-lime uppercase tracking-[0.5em] font-bold block mb-4">Executive Summary //</span>
-              <p className="text-xl text-white/60 leading-relaxed font-body font-light italic">
+              <span className="text-[9px] text-hero-lime uppercase tracking-[0.5em] font-bold block mb-4">Executive Summary</span>
+              <p className="text-xl text-white/90 leading-relaxed font-body font-light italic">
                 {blog.description}
               </p>
             </div>
           </div>
 
           {/* Blog Content */}
-          <div className="mb-20 prose prose-invert prose-lime max-w-none text-white/70">
-            <MarkdownRenderer content={blog.content} />
+          <div className=" sm:text-2xl text-xl text-center mb-20 prose prose-invert  max-w-none ">
+            <MarkdownRenderer  content={blog.content} />
           </div>
 
           {/* Footer Navigation */}
           <div className="border-t border-white/5 pt-12 text-center">
             <Link 
               href="/" 
-              className="inline-flex items-center gap-4 text-white/30 hover:text-hero-lime transition-all group py-4 px-8 border border-white/5 rounded-full hover:border-hero-lime/30 bg-white/5 hover:bg-hero-lime/5"
+              className="inline-flex items-center gap-4 text-white hover:text-hero-lime transition-all group py-4 px-8 border border-white/5 rounded-full hover:border-hero-lime/30 bg-white/5 hover:bg-hero-lime/5"
             >
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold font-system">Close Terminal & Exit</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold font-system">Close Blog & Exit</span>
             </Link>
           </div>
         </div>

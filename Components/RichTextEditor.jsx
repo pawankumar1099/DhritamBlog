@@ -89,7 +89,7 @@ export default function RichTextEditor({ value, onChange, onImageInsert }) {
   };
 
   return (
-    <div className="border-2 border-black">
+    <div className="border-2 border-black text-black">
       {/* Toolbar */}
       <div className="bg-gray-100 border-b-2 border-black p-3 flex flex-wrap gap-2">
         <button
@@ -106,7 +106,7 @@ export default function RichTextEditor({ value, onChange, onImageInsert }) {
         <button
           type="button"
           onClick={insertBold}
-          className="flex items-center gap-1 px-3 py-2 bg-white border-2 border-black hover:shadow-[-5px_5px_0px_0px_rgba(0,0,0,0.1)] transition-all"
+          className="flex items-center gap-1 px-3 py-2 bg-white  border-2 border-black hover:shadow-[-5px_5px_0px_0px_rgba(0,0,0,0.1)] transition-all"
           title="Bold (**text**)"
           style={{ fontFamily: 'var(--font-poppins)' }}
         >

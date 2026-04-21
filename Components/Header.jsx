@@ -100,7 +100,7 @@ const Header = () => {
               onChange={(e) => setEmail(e.target.value)} 
               value={email} 
               type="email" 
-              placeholder='Enter your secure email' 
+              placeholder='Enter your email' 
               className='flex-grow bg-transparent outline-none px-6 py-4 text-white text-sm placeholder:text-white/20' 
               required
             />

@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="flex items-center gap-4 justify-center md:justify-start bg-white/5 px-4 py-2 rounded-full border border-white/10">
             <span className="w-1.5 h-1.5 rounded-full bg-hero-lime animate-pulse"></span>
             <p className='text-[9px] uppercase tracking-[0.5em] text-white/50 font-bold'>
-              Core System Active: v5.0.1
+              Active Version: v1.0.2
             </p>
           </div>
         </div>
@@ -56,7 +56,7 @@ const Footer = () => {
         <div className="flex gap-10 text-[9px] uppercase tracking-[0.4em] text-white/30">
            <span className="hover:text-hero-lime cursor-pointer transition-colors hover:opacity-100">Privacy Policy</span>
            <span className="hover:text-hero-lime cursor-pointer transition-colors hover:opacity-100">Terms of Use</span>
-           <span className="hover:text-white cursor-pointer transition-colors">v5.0.1</span>
+           <span className="hover:text-white cursor-pointer transition-colors">v1.0.2</span>
         </div>
       </div>
     </div>
