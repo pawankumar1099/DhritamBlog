@@ -111,81 +111,99 @@ export default function BlogDetail() {
 
   if (loading) {
     return (
-      <>
+      <div className="min-h-screen bg-pure-black flex flex-col">
         <Header />
-        <div className="text-center py-16" style={{ fontFamily: 'var(--font-poppins)' }}>
-          Loading blog...
+        <div className="flex-grow flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+             <div className="w-12 h-12 border-2 border-hero-lime/20 border-t-hero-lime rounded-full animate-spin"></div>
+             <p className='text-xs uppercase tracking-[0.4em] text-hero-lime animate-pulse font-system'>
+               Decrypting Data_
+             </p>
+          </div>
         </div>
         <Footer />
-      </>
+      </div>
     );
   }
 
   if (error || !blog) {
     return (
-      <>
+      <div className="min-h-screen bg-pure-black flex flex-col">
         <Header />
-        <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <p className="text-red-600 mb-8" style={{ fontFamily: 'var(--font-poppins)' }}>
-            {error || 'Blog not found'}
-          </p>
-          <Link 
-            href="/" 
-            className="text-black font-bold hover:gap-2 inline-flex items-center gap-1"
-            style={{ fontFamily: 'var(--font-poppins)' }}
-          >
-            ← Back to Home
-          </Link>
+        <div className="max-w-4xl mx-auto px-4 py-32 text-center flex-grow">
+          <div className="inline-block p-12 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-sm mb-8">
+            <p className="text-red-500 text-sm uppercase tracking-[0.5em] font-system mb-8">
+              {error || 'Error: Entry Not Found'}
+            </p>
+            <Link 
+              href="/" 
+              className="px-8 py-3 bg-white text-black font-bold rounded-full uppercase tracking-widest text-[11px] font-system hover:bg-hero-lime transition-all"
+            >
+              ← Return to Hub
+            </Link>
+          </div>
         </div>
         <Footer />
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="bg-pure-black min-h-screen">
       <Header />
-      <div className="bg-white py-12 px-5 md:px-12 lg:px-28">
+      
+      {/* Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-[2px] bg-white/5 z-[60]">
+        <div className="h-full bg-hero-lime shadow-[0_0_10px_rgba(219,255,0,0.5)] transition-all duration-300"></div>
+      </div>
+
+      <div className="py-20 px-5 md:px-12 lg:px-28">
         <div className="max-w-4xl mx-auto">
           {/* Back Button */}
           <Link 
             href="/" 
-            className="text-black font-bold hover:gap-2 inline-flex items-center gap-1 mb-8 border-b-2 border-black pb-2"
-            style={{ fontFamily: 'var(--font-poppins)' }}
+            className="group inline-flex items-center gap-4 mb-20 text-white/30 hover:text-hero-lime transition-all"
           >
-            ← Back to All Blogs
+            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-hero-lime group-hover:bg-hero-lime/10 transition-all">
+              <span className="text-xl">←</span>
+            </div>
+            <span className="text-[10px] uppercase tracking-[0.4em] font-bold font-system">Return to Index</span>
           </Link>
 
           {/* Blog Header */}
-          <div className="mb-12">
+          <div className="mb-20">
+            <div className="flex items-center gap-3 mb-8">
+               <span className="px-3 py-1 bg-hero-lime/10 border border-hero-lime/30 text-hero-lime text-[9px] uppercase font-bold tracking-[0.3em] font-system rounded-full">
+                 {blog.category}
+               </span>
+               <div className="h-[1px] flex-grow bg-white/5"></div>
+               <span className="text-white/20 text-[9px] uppercase tracking-[0.5em] font-system font-bold">Ref: {blog._id.slice(-6)}</span>
+            </div>
+
             <h1 
-              className="text-5xl sm:text-6xl font-bold mb-6 text-black leading-tight" 
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              className="text-5xl sm:text-7xl font-bold mb-10 text-white leading-tight uppercase font-system tracking-tighter" 
             >
               {blog.title}
             </h1>
 
-            {/* Author Info and Category */}
-            <div className="flex items-center justify-between border-y-2 border-black py-6 mb-8">
-              <div className="flex items-center gap-4">
-                <Image
-                  src={blog.author_img}
-                  alt={blog.author}
-                  width={60}
-                  height={60}
-                  className="rounded-full border-2 border-black"
-                />
+            {/* Author Info */}
+            <div className="flex items-center justify-between border-t border-white/5 py-10 mt-10">
+              <div className="flex items-center gap-6">
+                <div className="relative p-1 rounded-full border border-white/10">
+                  <Image
+                    src={blog.author_img}
+                    alt={blog.author}
+                    width={64}
+                    height={64}
+                    className="rounded-full grayscale hover:grayscale-0 transition-all duration-500"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-hero-lime border-2 border-pure-black"></div>
+                </div>
                 <div>
-                  <p 
-                    className="font-bold text-black"
-                    style={{ fontFamily: 'var(--font-poppins)' }}
-                  >
+                  <p className="font-bold text-white uppercase tracking-[0.2em] text-xs font-system">
                     {blog.author}
                   </p>
-                  <p 
-                    className="text-gray-600 text-sm"
-                    style={{ fontFamily: 'var(--font-poppins)' }}
-                  >
+                  <p className="text-white/30 text-[10px] uppercase tracking-[0.3em] font-medium mt-1">
                     {new Date(blog.createdAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -194,56 +212,59 @@ export default function BlogDetail() {
                   </p>
                 </div>
               </div>
-              <span 
-                className="bg-black text-white px-6 py-2 font-bold border-2 border-black"
-                style={{ fontFamily: 'var(--font-poppins)' }}
-              >
-                {blog.category}
-              </span>
+              
+              <div className="hidden sm:flex flex-col items-end gap-2">
+                 <span className="text-[9px] text-white/20 uppercase tracking-[0.4em]">Authored In</span>
+                 <span className="text-white font-bold uppercase tracking-[0.2em] text-[10px]">Silicon Valley Sector</span>
+              </div>
             </div>
           </div>
 
           {/* Featured Image */}
           {blog.image && (
-            <div className="mb-12">
-              <Image
-                src={blog.image}
-                alt={blog.title}
-                width={800}
-                height={500}
-                className="w-full h-auto border-2 border-black shadow-[-10px_10px_0px_0px_rgba(0,0,0,0.1)]"
-              />
+            <div className="mb-20 relative group">
+              <div className="absolute inset-0 bg-hero-lime/20 blur-[100px] opacity-0 group-hover:opacity-10 transition-opacity"></div>
+              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl">
+                <Image
+                  src={blog.image}
+                  alt={blog.title}
+                  width={1000}
+                  height={600}
+                  className="w-full h-auto object-cover opacity-80"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-pure-black/60 to-transparent"></div>
+              </div>
             </div>
           )}
 
-          {/* Blog Description */}
-          <div className="mb-12 p-8 bg-gray-50 border-2 border-black">
-            <p 
-              className="text-xl text-black leading-relaxed"
-              style={{ fontFamily: 'var(--font-merriweather)' }}
-            >
-              {blog.description}
-            </p>
+          {/* Blog Description / TLDR */}
+          <div className="mb-20 p-10 bg-soft-black border border-white/10 rounded-3xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-hero-lime/5 blur-3xl"></div>
+            <div className="relative">
+              <span className="text-[9px] text-hero-lime uppercase tracking-[0.5em] font-bold block mb-4">Executive Summary //</span>
+              <p className="text-xl text-white/60 leading-relaxed font-body font-light italic">
+                {blog.description}
+              </p>
+            </div>
           </div>
 
           {/* Blog Content */}
-          <div className="mb-12">
+          <div className="mb-20 prose prose-invert prose-lime max-w-none text-white/70">
             <MarkdownRenderer content={blog.content} />
           </div>
 
-          {/* Footer Divider and Back Button */}
-          <div className="border-t-2 border-black pt-8">
+          {/* Footer Navigation */}
+          <div className="border-t border-white/5 pt-12 text-center">
             <Link 
               href="/" 
-              className="text-black font-bold hover:gap-2 inline-flex items-center gap-1 border-b-2 border-black pb-2"
-              style={{ fontFamily: 'var(--font-poppins)' }}
+              className="inline-flex items-center gap-4 text-white/30 hover:text-hero-lime transition-all group py-4 px-8 border border-white/5 rounded-full hover:border-hero-lime/30 bg-white/5 hover:bg-hero-lime/5"
             >
-              ← Back to All Blogs
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold font-system">Close Terminal & Exit</span>
             </Link>
           </div>
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
