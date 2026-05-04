@@ -1,25 +1,28 @@
-import { Outfit, Inter, Poppins } from "next/font/google";
+import { Outfit, Playfair_Display, Poppins, Merriweather } from "next/font/google";
 import "./globals.css";
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-outfit',
-  display: 'swap'
+  weight: ['400','500','600','700'],
+  variable: '--font-outfit'
 });
 
-const inter = Inter({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-inter',
-  display: 'swap'
+  weight: ['400','500','600','700'],
+  variable: '--font-playfair'
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ['600', '700', '800', '900'],
-  variable: '--font-big-shoulders',
-  display: 'swap'
+  weight: ['300','400','500','600','700'],
+  variable: '--font-poppins'
+});
+
+const merriweather = Merriweather({
+  subsets: ["latin"],
+  weight: ['300','400','700'],
+  variable: '--font-merriweather'
 });
 
 export const metadata = {
@@ -67,9 +70,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         {/* Schema.org JSON-LD for Website */}
-
-
-        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -113,23 +113,9 @@ export default function RootLayout({ children }) {
             }),
           }}
         />
-        
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SB6SXPZ50N"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-SB6SXPZ50N');
-            `,
-          }}
-        />
-        
       </head>
       <body
-        className={`${outfit.variable} ${poppins.variable} ${inter.variable} antialiased`}
+        className={`${outfit.variable} ${playfair.variable} ${poppins.variable} ${merriweather.variable} antialiased`}
       >
         {children}
       </body>

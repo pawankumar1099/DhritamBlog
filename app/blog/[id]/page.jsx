@@ -14,11 +14,16 @@ export default function BlogDetail() {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [commentText, setCommentText] = useState('');
+  const [commentAuthor, setCommentAuthor] = useState('');
+  const [isLiking, setIsLiking] = useState(false);
+  const [isCommenting, setIsCommenting] = useState(false);
 
   useEffect(() => {
     if (params?.id) {
       fetchBlog();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.id]);
 
   useEffect(() => {
@@ -85,21 +90,18 @@ export default function BlogDetail() {
   const fetchBlog = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/blogs');
+      // Construct exact ID for the fetch - ensures we get the latest data including likes/comments
+      const blogId = params?.id;
+      if (!blogId) return;
+
+      const response = await fetch(`/api/blogs/${blogId}`);
       const data = await response.json();
 
       if (data.success) {
-        const foundBlog = data.data.find(
-          (b) => b._id === params.id
-        );
-        if (foundBlog) {
-          setBlog(foundBlog);
-          setError(null);
-        } else {
-          setError('Blog not found');
-        }
+        setBlog(data.data);
+        setError(null);
       } else {
-        setError('Failed to fetch blog');
+        setError(data.error || 'Blog not found');
       }
     } catch (err) {
       console.error('Error fetching blog:', err);
@@ -109,15 +111,71 @@ export default function BlogDetail() {
     }
   };
 
+  const handleLike = async () => {
+    if (isLiking || !params?.id) return;
+    try {
+      setIsLiking(true);
+      // Ensure we are using the resolved ID correctly
+      const blogId = params.id;
+      const response = await fetch(`/api/blogs/${blogId}/like`, { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Like failed: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      if (data.success) {
+        setBlog(prev => ({ ...prev, likes: data.data.likes }));
+      }
+    } catch (err) {
+      console.error('Error liking blog:', err);
+      // Optional: show a small notification or error state
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
+  const handleComment = async (e) => {
+    e.preventDefault();
+    if (isCommenting || !commentText.trim() || !commentAuthor.trim() || !params?.id) return;
+    try {
+      setIsCommenting(true);
+      const blogId = params.id;
+      const response = await fetch(`/api/blogs/${blogId}/comment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: commentText, author: commentAuthor }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Comment failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setBlog(prev => ({ ...prev, comments: data.data }));
+        setCommentText('');
+        setCommentAuthor(''); // Clear author too if desired, or keep for convenience
+      }
+    } catch (err) {
+      console.error('Error adding comment:', err);
+    } finally {
+      setIsCommenting(false);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-pure-black flex flex-col">
+      <div className="min-h-screen bg-bg-primary flex flex-col">
         <Header />
-        <div className="flex-grow flex items-center justify-center">
+        <div className="grow flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
-             <div className="w-12 h-12 border-2 border-hero-lime/20 border-t-hero-lime rounded-full animate-spin"></div>
-             <p className='text-xs uppercase tracking-[0.4em] text-hero-lime animate-pulse font-system'>
-               Decrypting Data_
+             <div className="w-12 h-12 border-2 border-brand/20 border-t-brand rounded-full animate-spin"></div>
+             <p className='text-xs uppercase tracking-[0.4em] text-brand animate-pulse font-sans'>
+               Loading Content...
              </p>
           </div>
         </div>
@@ -128,18 +186,18 @@ export default function BlogDetail() {
 
   if (error || !blog) {
     return (
-      <div className="min-h-screen bg-pure-black flex flex-col">
+      <div className="min-h-screen bg-bg-primary flex flex-col">
         <Header />
-        <div className="max-w-4xl mx-auto px-4 py-32 text-center flex-grow">
-          <div className="inline-block p-12 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-sm mb-8">
-            <p className="text-red-500 text-sm uppercase tracking-[0.5em] font-system mb-8">
+        <div className="max-w-4xl mx-auto px-4 py-32 text-center grow">
+          <div className="inline-block p-12 bg-bg-secondary rounded-3xl border border-border-light backdrop-blur-sm mb-8">
+            <p className="text-error text-sm uppercase tracking-[0.5em] font-sans mb-8">
               {error || 'Error: Entry Not Found'}
             </p>
             <Link 
               href="/" 
-              className="px-8 py-3 bg-white text-black font-bold rounded-full uppercase tracking-widest text-[11px] font-system hover:bg-hero-lime transition-all"
+              className="btn-primary uppercase tracking-widest text-[11px] font-sans"
             >
-              ← Return to Hub
+              ← Return Home
             </Link>
           </div>
         </div>
@@ -149,117 +207,188 @@ export default function BlogDetail() {
   }
 
   return (
-    <div className="bg-pure-black min-h-screen">
+    <div className="bg-bg-primary min-h-screen">
       <Header />
       
-      {/* Progress Bar */}
-      <div className="fixed top-0 left-0 w-full h-[2px] bg-white/5 z-[60]">
-        <div className="h-full bg-hero-lime shadow-[0_0_10px_rgba(219,255,0,0.5)] transition-all duration-300"></div>
-      </div>
-
       <div className="py-20 px-5 md:px-12 lg:px-28">
-        <div className="max-w-4xl mx-auto">
+        <div className="reading-container">
           {/* Back Button */}
           <Link 
             href="/" 
-            className="group inline-flex items-center gap-4 mb-20 text-white/60 hover:text-hero-lime transition-all"
+            className="group inline-flex items-center gap-4 mb-16 text-text-secondary hover:text-text-primary transition-all"
           >
-            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-hero-lime group-hover:bg-hero-lime/10 transition-all">
+            <div className="w-10 h-10 rounded-full border border-border-default flex items-center justify-center group-hover:bg-bg-secondary transition-all">
               <span className="text-xl">←</span>
             </div>
-            <span className="text-[10px] uppercase tracking-[0.4em] font-bold font-system">Return to Index</span>
+            <span className="text-[10px] uppercase tracking-[0.4em] font-bold font-sans">Return to Index</span>
           </Link>
 
           {/* Blog Header */}
-          <div className="mb-20">
-            <div className="flex items-center gap-3 mb-8">
-               <span className="px-3 py-1 bg-hero-lime/10 border border-hero-lime/30 text-hero-lime text-[9px] uppercase font-bold tracking-[0.3em] font-system rounded-full">
+          <div className="mb-16">
+            <div className="flex items-center gap-3 mb-6">
+               <span className="tag-chip">
                  {blog.category}
                </span>
-               <div className="h-[1px] flex-grow bg-white/5"></div>
-               <span className="text-white/20 text-[9px] uppercase tracking-[0.5em] font-system font-bold">Ref: {blog._id.slice(-6)}</span>
+               <div className="h-px grow bg-border-light"></div>
             </div>
 
             <h1 
-              className="text-5xl sm:text-7xl font-bold mb-10 text-white leading-tight uppercase font-system tracking-tighter" 
+              className="text-4xl sm:text-5xl font-bold mb-8 text-text-primary leading-tight font-serif" 
             >
               {blog.title}
             </h1>
 
             {/* Author Info */}
-            <div className="flex items-center justify-between border-t border-white/5 py-10 mt-10">
-              <div className="flex items-center gap-6">
-                <div className="relative p-1 rounded-full border border-white/10">
-                  <Image
-                    src={blog.author_img}
-                    alt={blog.author}
-                    width={64}
-                    height={64}
-                    className="rounded-full grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-hero-lime border-2 border-pure-black"></div>
-                </div>
+            <div className="flex items-center justify-between border-y border-border-light py-8 mt-10">
+              <div className="flex items-center gap-4">
+                <Image
+                  src={blog.author_img}
+                  alt={blog.author}
+                  width={48}
+                  height={48}
+                  className="rounded-full object-cover"
+                />
                 <div>
-                  <p className="font-bold text-white uppercase tracking-[0.2em] text-xs font-system">
+                  <p className="font-bold text-text-primary text-sm font-sans">
                     {blog.author}
                   </p>
-                  <p className="text-white/30 text-[10px] uppercase tracking-[0.3em] font-medium mt-1">
+                  <p className="text-text-muted text-[12px] font-medium mt-0.5">
                     {new Date(blog.createdAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
-                    })}
+                    })} &middot; 4 min read
                   </p>
                 </div>
               </div>
               
-              <div className="hidden sm:flex flex-col items-end gap-2">
-                 <span className="text-[9px] text-white/20 uppercase tracking-[0.4em]">Written within the</span>
-                 <span className="text-white font-bold uppercase tracking-[0.2em] text-[10px]">Public Health Domain</span>
+              <div className="flex items-center gap-4">
+                 <button 
+                  onClick={handleLike}
+                  disabled={isLiking}
+                  className={`flex items-center gap-1.5 text-text-muted hover:text-brand transition-colors ${isLiking ? 'opacity-50' : ''}`}
+                 >
+                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className={blog.likes > 0 ? "fill-brand stroke-brand" : "stroke-current"}><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                   <span className="text-sm font-medium">{blog.likes || 0}</span>
+                 </button>
+                 <button className="text-text-muted hover:text-text-primary transition-colors flex items-center gap-1.5">
+                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                   <span className="text-sm font-medium">{blog.comments?.length || 0}</span>
+                 </button>
               </div>
             </div>
           </div>
 
           {/* Featured Image */}
           {blog.image && (
-            <div className="mb-20 relative group">
-              <div className="absolute inset-0 bg-hero-lime/20 blur-[100px] opacity-0 group-hover:opacity-10 transition-opacity"></div>
-              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl">
-                <Image
-                  src={blog.image}
-                  alt={blog.title}
-                  width={1000}
-                  height={600}
-                  className="w-full h-auto object-cover opacity-80"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-pure-black/60 to-transparent"></div>
-              </div>
+            <div className="mb-16">
+              <Image
+                src={blog.image}
+                alt={blog.title}
+                width={1000}
+                height={600}
+                className="w-full h-auto object-cover rounded-sm"
+              />
             </div>
           )}
 
           {/* Blog Description / TLDR */}
-          <div className="mb-20 p-10 bg-soft-black border border-white/10 rounded-3xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-hero-lime/5 blur-3xl"></div>
-            <div className="relative">
-              <span className="text-[9px] text-hero-lime uppercase tracking-[0.5em] font-bold block mb-4">Executive Summary</span>
-              <p className="text-xl text-white/90 leading-relaxed font-body font-light italic">
-                {blog.description}
-              </p>
-            </div>
+          <div className="mb-16">
+            <p className="text-2xl text-text-secondary leading-relaxed font-sans font-light italic">
+              {blog.description}
+            </p>
           </div>
 
           {/* Blog Content */}
-          <div className=" sm:text-2xl text-xl text-center mb-20 prose prose-invert  max-w-none ">
-            <MarkdownRenderer  content={blog.content} />
+          <div className="text-lg text-text-primary mb-12 prose prose-lg max-w-none font-sans leading-relaxed">
+            <MarkdownRenderer content={blog.content} />
+          </div>
+
+          {/* Social Interactions (Likes/Share) */}
+          <div className="flex items-center gap-6 py-8 border-y border-border-light mb-16">
+            <button 
+              onClick={handleLike}
+              disabled={isLiking}
+              className={`flex items-center gap-2 text-text-muted hover:text-brand transition-all group ${isLiking ? 'opacity-50' : ''}`}
+            >
+              <div className={`p-2 rounded-full group-hover:bg-brand/5 transition-colors ${blog.likes > 0 ? "text-brand" : ""}`}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill={blog.likes > 0 ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              </div>
+              <span className="text-sm font-medium">{blog.likes || 0} likes</span>
+            </button>
+            <div className="flex items-center gap-2 text-text-muted">
+              <div className="p-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <span className="text-sm font-medium">{blog.comments?.length || 0} comments</span>
+            </div>
+          </div>
+
+          {/* Comments Section */}
+          <div className="mb-20">
+            <h3 className="text-2xl font-bold font-serif text-text-primary mb-8">Comments</h3>
+            
+            {/* Comment Form */}
+            <form onSubmit={handleComment} className="mb-12 bg-bg-secondary p-6 rounded-sm border border-border-light">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <input 
+                  type="text" 
+                  placeholder="Your Name"
+                  required
+                  value={commentAuthor}
+                  onChange={(e) => setCommentAuthor(e.target.value)}
+                  className="w-full px-4 py-2 bg-bg-primary border border-border-default rounded-sm focus:border-brand outline-none text-sm transition-colors text-text-primary"
+                />
+              </div>
+              <textarea 
+                placeholder="What are your thoughts?"
+                required
+                rows="3"
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                className="w-full px-4 py-3 bg-bg-primary border border-border-default rounded-sm focus:border-brand outline-none text-sm transition-colors text-text-primary resize-none mb-4"
+              ></textarea>
+              <button 
+                type="submit"
+                disabled={isCommenting}
+                className="btn-primary"
+              >
+                {isCommenting ? 'Posting...' : 'Respond'}
+              </button>
+            </form>
+
+            {/* Comment List */}
+            <div className="space-y-8">
+              {blog.comments && blog.comments.length > 0 ? (
+                blog.comments.map((comment, index) => (
+                  <div key={index} className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full bg-border-light shrink-0 flex items-center justify-center text-text-muted font-bold text-xs uppercase">
+                      {comment.author.slice(0, 2)}
+                    </div>
+                    <div className="grow">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-bold text-sm text-text-primary">{comment.author}</span>
+                        <span className="text-text-muted text-xs">&middot; {new Date(comment.createdAt).toLocaleDateString()}</span>
+                      </div>
+                      <p className="text-text-secondary leading-relaxed text-[16px]">
+                        {comment.text}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-text-muted italic text-sm">No comments yet. Be the first to share your thoughts!</p>
+              )}
+            </div>
           </div>
 
           {/* Footer Navigation */}
-          <div className="border-t border-white/5 pt-12 text-center">
+          <div className="border-t border-border-light pt-12 text-center">
             <Link 
               href="/" 
-              className="inline-flex items-center gap-4 text-white hover:text-hero-lime transition-all group py-4 px-8 border border-white/5 rounded-full hover:border-hero-lime/30 bg-white/5 hover:bg-hero-lime/5"
+              className="btn-secondary px-10"
             >
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold font-system">Close Blog & Exit</span>
+              Back to Home
             </Link>
           </div>
         </div>

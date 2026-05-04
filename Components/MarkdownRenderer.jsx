@@ -16,54 +16,54 @@ export default function MarkdownRenderer({ content }) {
     // Code blocks (must be before inline code)
     html = html.replace(
       /```\n([\s\S]*?)\n```/g,
-      '<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto my-4 border-2 border-black"><code>$1</code></pre>'
+      '<pre class="bg-bg-secondary text-text-primary p-6 rounded-sm overflow-x-auto my-8 border border-border-light font-mono text-sm leading-relaxed"><code>$1</code></pre>'
     );
 
     // Inline code
-    html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">$1</code>');
+    html = html.replace(/`([^`]+)`/g, '<code class="bg-bg-secondary px-1.5 py-0.5 rounded font-mono text-sm text-brand">$1</code>');
 
     // Headers (h2, h3, etc)
     html = html.replace(
       /^### (.*?)$/gm,
-      '<h3 class="text-3xl font-bold my-4 text-white border-b border-white/10 pb-3">$1</h3>'
+      '<h3 class="text-2xl font-bold mt-12 mb-4 text-text-primary font-serif">$1</h3>'
     );
     html = html.replace(
       /^## (.*?)$/gm,
-      '<h2 class="text-4xl font-bold my-6 text-white border-b border-white/10 pb-3">$1</h2>'
+      '<h2 class="text-3xl font-bold mt-16 mb-4 text-text-primary font-serif">$1</h2>'
     );
     html = html.replace(
       /^# (.*?)$/gm,
-      '<h1 class="text-5xl font-bold my-6 text-white border-b border-white/10 pb-3">$1</h1>'
+      '<h1 class="text-4xl font-bold mt-20 mb-6 text-text-primary font-serif">$1</h1>'
     );
 
     // Bold text
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-white">$1</strong>');
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-text-primary">$1</strong>');
 
     // Italic text
-    html = html.replace(/\*(.*?)\*/g, '<em class="italic text-white/70">$1</em>');
+    html = html.replace(/\*(.*?)\*/g, '<em class="italic text-text-secondary">$1</em>');
 
     // Links
-    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-hero-lime underline hover:text-white transition-colors font-bold" target="_blank" rel="noopener noreferrer">$1</a>');
+    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-brand underline hover:text-brand-dark transition-colors" target="_blank" rel="noopener noreferrer">$1</a>');
 
     // Images
     html = html.replace(
       /!\[(.*?)\]\((.*?)\)/g,
-      '<img src="$2" alt="$1" class="w-full h-auto my-4 border-2 border-black shadow-[-10px_10px_0px_0px_rgba(0,0,0,0.1)]" />'
+      '<img src="$2" alt="$1" class="w-full h-auto my-12" />'
     );
 
     // Blockquotes
     html = html.replace(
       /^&gt; (.*?)$/gm,
-      '<blockquote class="border-l-4 border-hero-lime bg-white/5 p-4 my-4 italic text-white/80">$1</blockquote>'
+      '<blockquote class="border-l-[3px] border-text-primary pl-6 my-10 italic text-2xl text-text-secondary font-serif leading-relaxed">$1</blockquote>'
     );
 
     // Unordered lists
-    html = html.replace(/^\- (.*?)$/gm, '<li class="list-disc list-inside ml-4 my-1 text-white/90">$1</li>');
-    html = html.replace(/(<li class="list-disc list-inside ml-4 my-1 text-white\/90">.*?<\/li>)/gs, '<ul class="my-4">$1</ul>');
+    html = html.replace(/^\- (.*?)$/gm, '<li class="list-disc ml-6 my-3 pr-2 text-text-primary">$1</li>');
+    html = html.replace(/(<li class="list-disc ml-6 my-3 pr-2 text-text-primary">.*?<\/li>)/gs, '<ul class="my-6">$1</ul>');
 
     // Ordered lists
-    html = html.replace(/^\d+\. (.*?)$/gm, '<li class="list-decimal list-inside ml-4 my-1 text-white/90">$1</li>');
-    html = html.replace(/(<li class="list-decimal list-inside ml-4 my-1 text-white\/90">.*?<\/li>)/gs, '<ol class="my-4">$1</ol>');
+    html = html.replace(/^\d+\. (.*?)$/gm, '<li class="list-decimal ml-6 my-3 pr-2 text-text-primary">$1</li>');
+    html = html.replace(/(<li class="list-decimal ml-6 my-3 pr-2 text-text-primary">.*?<\/li>)/gs, '<ol class="my-6">$1</ol>');
 
     // Paragraphs
     html = html.split('\n\n').map((para) => {
@@ -75,7 +75,7 @@ export default function MarkdownRenderer({ content }) {
       ) {
         return para;
       }
-      return `<p class="my-4 leading-relaxed text-white/90">${para}</p>`;
+      return `<p class="mb-6 leading-relaxed text-text-primary font-sans text-[20px]">${para}</p>`;
     });
 
     return html.join('');

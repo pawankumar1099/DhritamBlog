@@ -1,62 +1,36 @@
-import React from 'react'
-import Image from 'next/image' 
-import { assets } from '@/Assets/assets'
-import Link from 'next/link'
+﻿import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
-const BlogItem = ({title, description, category, image, id}) => {
-  
+const BlogItem = ({ title, description, category, image, id }) => {
   return (
-    <div className='w-full sm:w-[360px] modern-card flex flex-col group relative overflow-hidden'>
-      {/* Glow Effect */}
-      <div className="absolute -top-20 -right-20 w-40 h-40 bg-hero-lime/5 blur-[80px] group-hover:bg-hero-lime/10 transition-all"></div>
-      
-      <Link href={`/blog/${id}`} className='flex flex-col h-full'>
-        <div className='overflow-hidden bg-black h-[220px] relative'>
-          <Image 
-            src={image} 
-            width={400} 
-            height={300} 
-            alt={title} 
-            className='w-full h-full object-cover  group-hover:scale-105 transition-all duration-700 ease-out grayscale hover:grayscale-0'
-          />
-          
-          
-          <div className="absolute top-4 left-4">
-            <span 
-              className='px-3 py-1 bg-white/5 border border-white/10 backdrop-blur-md text-hero-lime text-[9px] uppercase font-bold tracking-[0.3em] font-system rounded-full'
-            >
-              {category}
-            </span>
-          </div>
+    <div className="flex flex-row-reverse items-center justify-between group gap-16 border-b border-border-light pb-12 blog-card p-4 rounded-sm">
+      <div className="flex flex-col flex-1">
+        <div className="flex items-center gap-2 mb-3 font-sans">
+          <span className="text-xs font-medium text-brand">{category}</span>
         </div>
-        
-        <div className='p-8 flex flex-col flex-grow bg-card-bg/40'>
-          <h5 
-            className='mb-4 text-2xl font-bold tracking-tight text-white line-clamp-2 uppercase font-system leading-none group-hover:text-hero-lime transition-colors duration-300'
-          >
+        <Link href={"/blog/" + id} className="flex flex-col">
+          <h2 className="text-[26px] font-bold leading-tight mb-2 group-hover:text-brand font-serif text-text-primary transition-colors">
             {title}
-          </h5>
-          
-          <p 
-            className='mb-8 text-sm text-white/40 line-clamp-3 leading-relaxed flex-grow font-body font-light tracking-wide'
-          >
+          </h2>
+          <p className="text-[16px] line-clamp-3 leading-relaxed mb-6 font-sans text-text-secondary">
             {description}
           </p>
-          
-          <div className='mt-auto flex items-center justify-between pt-6 border-t border-white/5'>
-            <div className='inline-flex items-center gap-3 cursor-pointer group/btn'>
-              <span className="font-system text-[10px] uppercase font-bold tracking-[0.2em] text-white/60 group-hover/btn:text-white transition-colors">Read Case Study</span>
-              <div className="w-8 h-[1px] bg-white/10 transition-all group-hover/btn:w-12 group-hover/btn:bg-hero-lime"></div>
-            </div>
-            <div className="flex gap-1">
-               <div className="w-1 h-1 rounded-full bg-hero-lime/20 group-hover:bg-hero-lime transition-colors"></div>
-               <div className="w-1 h-1 rounded-full bg-hero-lime/20 group-hover:bg-hero-lime transition-colors delay-75"></div>
-            </div>
-          </div>
+        </Link>
+        <div className="flex items-center text-xs text-text-muted gap-2 mt-auto font-sans">
+          <span>Dec 12</span>
+          <span>&middot;</span>
+          <span>4 min read</span>
+        </div>
+      </div>
+      <Link href={"/blog/" + id} className="flex-shrink-0 hidden sm:block">
+        <div className="overflow-hidden rounded-[4px] border border-border-light shadow-sm ">
+          <Image src={image} width={240} height={160} alt={title} className="w-[180px] h-[120px] sm:w-[240px] sm:h-[160px] object-cover transition-transform duration-700 group-hover:scale-105" />
         </div>
       </Link>
     </div>
-  )
-}
+  );
+};
 
-export default BlogItem
+export default BlogItem;
+

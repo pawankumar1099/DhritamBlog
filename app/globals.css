@@ -1,122 +1,123 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @theme {
-  /* Colors */
-  --color-hero-lime: #dbff00;
-  --color-problem-orange: #ff4d00;
-  --color-secondary-gold: #ffcc00;
-  --color-card-bg: #111111;
-  --color-pioneers-white: #ffffff;
-  --color-pure-black: #000000;
-  --color-soft-black: #0e0e0e;
-  --color-dim-gray: #333333;
-  --color-off-white: #f0f0f0;
-
-  /* Custom Palette Colors */
-  --color-brand-cyan: #00e5b3;
-  --color-brand-red: #00f423; /* Wait, the user input had #00f423... which is green-ish but maybe they meant a specific neon? */
-  --color-brand-blue: #0026f0;
-  --color-brand-deep-blue: #0027d0;
-
-  /* Fonts */
-  --font-display: var(--font-big-shoulders), var(--font-outfit), sans-serif;
-  --font-system: var(--font-outfit), sans-serif;
-  --font-body: var(--font-inter), sans-serif;
-
-  /* Modern Variables */
-  --radius-modern: 12px;
-  --shadow-modern: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --border-modern: 1px solid rgba(0, 0, 0, 0.4);
+  /* Medium-style fonts */
+  --font-serif: "Merriweather", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  
+  /* Medium-style palette */
+  --color-brand: #1A8917;
+  --color-brand-hover: #0F730C;
+  --color-brand-light: #E6F4EA;
+  
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #FAFAFA;
+  --color-bg-subtle: #F5F5F5;
+  
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B6B6B;
+  --color-text-muted: #9E9E9E;
+  
+  --color-border-default: #E6E6E6;
+  --color-border-light: #F0F0F0;
+  
+  --color-success: #1A8917;
+  --color-error: #D93025;
 }
 
 @layer base {
   :root {
-    --background: #000000;
-    --foreground: #ffffff;
-    --radius: 12px;
+    --background: var(--color-bg-primary);
+    --foreground: var(--color-text-primary);
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-body);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    font-size: 18px;
+    line-height: 1.7;
+    letter-spacing: 0.2px;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-system);
-    letter-spacing: -0.02em;
+    font-family: var(--font-serif);
+    color: var(--color-text-primary);
+    font-weight: 700;
   }
 
-  .zalando-sans-expanded-font {
-    font-family: var(--font-display);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    font-stretch: expanded;
+  /* Medium-style reading container */
+  .reading-container {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
   }
+
+  /* Typography Scale */
+  h1 { font-size: 42px; line-height: 1.2; margin-bottom: 1.2em; }
+  h2 { font-size: 32px; line-height: 1.3; font-weight: 600; margin-top: 2em; margin-bottom: 0.8em; }
+  h3 { font-size: 24px; line-height: 1.4; font-weight: 600; margin-top: 1.5em; margin-bottom: 0.5em; }
+  
+  p { margin-bottom: 1.2em; }
 }
 
 @layer components {
-  .modern-card {
-    background: var(--color-card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-modern);
-    box-shadow: var(--shadow-modern);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .modern-card:hover {
-    border-color: var(--color-hero-lime);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(219, 255, 0, 0.1);
-    transform: translateY(-2px);
-  }
-
-  .glass-nav {
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  .btn-modern {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.2s;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.875rem;
-  }
-
-  .input-modern {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
+  /* Button Variants */
+  .btn-primary {
+    background-color: var(--color-brand);
     color: white;
-    transition: border-color 0.2s;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-brand-hover);
+    transform: scale(1.02);
   }
 
-  .input-modern:focus {
-    border-color: var(--color-hero-lime);
-    outline: none;
-    background: rgba(255, 255, 255, 0.05);
+  .btn-secondary {
+    border: 1px solid var(--color-border-default);
+    background-color: transparent;
+    color: var(--color-text-primary);
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-bg-secondary);
   }
 
-  .sticky-section {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  /* Blog Preview Card */
+  .blog-card {
+    background-color: white;
+    border: none;
+    transition: all 0.2s ease;
   }
-}
+  .blog-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
 
-@keyframes scan {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(1000%); }
-}
-
-.animate-scan {
-  animation: scan 2s linear infinite;
+  /* Tags / Chips */
+  .tag-chip {
+    background-color: #F2F2F2;
+    color: var(--color-text-secondary);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
 }
 
